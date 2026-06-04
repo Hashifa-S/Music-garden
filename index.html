@@ -1,31 +1,127 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Music Garden</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CD Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Caveat:wght@400;500&display=swap" rel="stylesheet" />
 
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      background: #eaf4ff;
-      color: #1b3b5a;
-      font-family: Arial;
-      text-align: center;
-    }
-    .step { display: none; }
-    .active { display: block; }
-
-    button, input {
-      padding: 10px;
-      margin: 10px;
-      border-radius: 20px;
-      border: none;
-      background: #cfe8ff;
-      color: #1b3b5a;
+      font-family: 'Inter', sans-serif;
+      background: #f7f6f2;
+      color: #2c2c2a;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 16px 80px;
     }
 
-    button:hover {
-      background: #b8dcff;
-      cursor: pointer;
+    /*--Steps trackimg thingy--*/
+    .tracker { display: flex; align-items: center; margin-bottom: 56px; }
+    .tracker-line { width: 72px; height: 1.5px; background: #dddbd5; position: relative; overflow: hidden; }
+    .tracker-line-fill { position: absolute; top: 0; left: 0; height: 100%; background: #e8d97a; transition: width 0.4s ease; width: 0%; }
+    .tracker-step {
+      width: 30px; height: 30px; border-radius: 50%;
+      border: 1.5px solid #dddbd5; background: #f7f6f2;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; color: #aaa8a2;
+      transition: border-color 0.3s, color 0.3s, background 0.3s; flex-shrink: 0;
     }
-  </style>
-</head>
-</html>
+    .tracker-step.active { border-color: #e8d97a; color: #7a6e1a; background: #fdfbef; }
+    .tracker-step.done   { border-color: #e8d97a; background: #e8d97a; color: #7a6e1a; }
+
+    /*--Main thingy--*/
+    .card {
+      background: #fff; border: 1px solid #e8e7e2; border-radius: 16px;
+      padding: 48px 52px; width: 100%; max-width: 520px;
+    }
+    .step-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #b5b3ad; margin-bottom: 8px; }
+    h1 { font-size: 22px; font-weight: 500; color: #2c2c2a; margin-bottom: 32px; line-height: 1.3; }
+
+    /*--Inputs-- */
+    input[type="text"], input[type="url"] {
+      width: 100%; padding: 11px 14px;
+      border: 1px solid #e0ded8; border-radius: 8px;
+      font-family: inherit; font-size: 14px;
+      color: #2c2c2a; background: #fafaf8;
+      outline: none; transition: border-color 0.2s;
+    }
+    input[type="text"]:focus, input[type="url"]:focus { border-color: #c8bf6a; background: #fff; }
+    input::placeholder { color: #c4c2bb; }
+
+    /*--Buttons-- */
+    .btn {
+      display: inline-block; padding: 10px 24px; border-radius: 8px;
+      font-family: inherit; font-size: 14px; cursor: pointer;
+      transition: background 0.2s; border: 1px solid #e0ded8;
+      background: #f7f6f2; color: #2c2c2a;
+    }
+    .btn:hover { background: #eeecea; }
+    .btn-primary { background: #2c2c2a; color: #f7f6f2; border-color: #2c2c2a; }
+    .btn-primary:hover { background: #444441; }
+    .btn-sm { padding: 7px 16px; font-size: 13px; }
+    .nav { display: flex; justify-content: space-between; align-items: center; margin-top: 40px; }
+
+    /*--CD Preview (Step 1)--*/
+    .cd-wrap { display: flex; justify-content: center; margin: 32px 0; }
+    .cd {
+      width: 148px; height: 148px; border-radius: 50%;
+      border: 1px solid #e8e7e2; background: #f0efe9;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; cursor: pointer; transition: border-color 0.2s;
+    }
+    .cd:hover { border-color: #c8bf6a; }
+    .cd-hole { width: 22px; height: 22px; border-radius: 50%; background: #f7f6f2; border: 1px solid #e0ded8; position: absolute; z-index: 2; }
+    .cd-label { font-size: 11px; color: #b5b3ad; text-align: center; position: absolute; z-index: 1; bottom: 42px; }
+    .cd-title-text { font-size: 10px; font-weight: 500; color: #7a7870; text-align: center; position: absolute; z-index: 1; top: 44px; max-width: 90px; word-break: break-word; }
+    #cd-image { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; z-index: 0; }
+    #upload-input { display: none; }
+    .upload-hint { font-size: 12px; color: #b5b3ad; text-align: center; margin-top: 8px; }
+
+    /*--2nd step add song--*/
+    .add-song-block{ display: flex; flex-direction: column; gap: 10px; margin-bottom: 8px; }
+    .add-song-block input {width: 100%;}
+
+    /*Error msg*/
+    .input-error { border-color: #e8a87a !important; }
+    .error-msg { font-size: 11px; color: #c07a50; margin-top: -4px; margin-bottom: 4px; min-height: 16px; }
+
+    /*Song Queue*/
+    #song-queue { list-style: none; margin-top: 20px; }
+    #song-queue li {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 9px 0; border-bottom: 1px solid #foefe9; font-size: 13px;
+    }
+    #song-queue li:last-child { border-bottom: none; }
+    .song-num {color: #c4c2bb; font-size: 11px; min-width: 18px;}
+    .song-remove { color: #c4c2bb; cursor: pointer; font-size: 18px; line-height: 1; background: none; border: none; }
+    .song-remove:hover { color: #888; }
+    .empty-hint { font-size: 12px; color: #c4c2bb; text-align: center; padding: 20px 0; }
+
+    /*--3rd step flowerssss--*/
+    .flower-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    .flower-option {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 2px solid transparent; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; background: #f0efe9;
+      transition: border-color 0.2s, transform 0.15s; user-select: none;
+    }
+    .flower-option:hover { transform: scale(1.08); }
+    .flower-option:selected {border-color: #c8bf6a; background: #fdfbef; }
+    .bouquet {
+      min-height: 72px; display: flex; flex-wrap: wrap; gap: 4px;
+      align-items: center; margin-top: 12px; padding: 12px;
+      background: #fafaf8; border-radius: 12px; border: 1px solid #eee;
+    }
+    .bouquet-flower { font-size: 26px; }
+
+    /*--4th step cute note and song playyy--*/
+    
+    
+    
+    
