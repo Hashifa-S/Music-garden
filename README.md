@@ -16,7 +16,7 @@ Users can upload an image, place it onto a CD-style player, add some visual elem
 - HTML
 - CSS
 - JavaScript
-- Music API for song search
+- Youtube Iframe
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 **How to run**
@@ -35,7 +35,7 @@ Github will generate a public link for the site
 **How it works**
 - The user uploads an image - it's rendered onto the CD
 - The player handles audio playback
-- UI elements (like flowers) are layered using CSS
+- Emojis are used instead of pictures for flowers
 - Data can be stored in the URL or browser storage for sharing.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -45,8 +45,3 @@ Github will generate a public link for the site
 - Better Mobile Layout
 - Better Animation ( Spinning CD, transitions)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-**Notes**
-
-This project is meant to be lightweight and customizable. Most of the visuals can be swapped out by replacing images in the /images folder or adjusting CSS.
-
-
