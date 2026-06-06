@@ -229,6 +229,28 @@
       </style>
 </head>
 <body>
+
+<!--Step thingy-->
+  <nav class="tracker" aria-label="Steps">
+    <div class="tracker-step active" id="step-dot-1">1</div>
+    <div class="tracker-line"><div class="tracker-line-fill" id="line-1"></div></div>
+    <div class="tracker-step" id="step-dot-2">2</div>
+    <div class="tracker-line"><div class="tracker-line-fill" id="line-2"></div></div>
+    <div class="tracker-step" id="step-dot-3">3</div>
+    <div class="tracker-line"><div class="tracker-line-fill" id="line-3"></div></div>
+    <div class="tracker-step" id="step-dot-4">4</div>
+  </nav>
+
+  <main class="card">
+
+  <!--Name the cd 1st step-->
+  <section class="step-panel active" id="panel-1">
+  <p class="step-label">Step 1 of 4</p>
+  <h1>Name your CD</h1>
+  <input type="text" id="cd-title" placeholder="Give it a name..." maxlength="40" oninput="updateCDPreview()" aria-label="CD title"/>
+  <div class="cd-wrap">
+    <div class="cd" id="cd-disc" onclick="document.getElementById('upload-input').click()" title="Click to upload CD art">
+      <img id
   
 </body>
 
