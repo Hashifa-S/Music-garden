@@ -250,7 +250,51 @@
   <input type="text" id="cd-title" placeholder="Give it a name..." maxlength="40" oninput="updateCDPreview()" aria-label="CD title"/>
   <div class="cd-wrap">
     <div class="cd" id="cd-disc" onclick="document.getElementById('upload-input').click()" title="Click to upload CD art">
-      <img id
+      <img id="cd-image" src= "" alt= "" style= "diplay:none;"/>
+      <span class="cd-title-text" id="cd-preview-text"></span>
+      <span class= "cd-label" id="cd-label-hint"> Tap to add art </span>
+      <div class= "cd-hole"> </div>
+    </div>
+  </div>
+  <p class= "upload hint"> Optional- Click disc to add art</p>
+  input type= "file" id="upload-input" accept="image/*" onchange= "handleUpload(event)"/>
+  <div class= "nav"> 
+  <span></span>
+  <button class= "btn btn-primary onclick= "goTo(2)">Next</button>
+  </div>
+  </section>
+
+  <!--2nd STEP-->
+  <section class= "step-panel" id="panel-2">
+    <p class= "step-label">Step 2 of 4</p>
+    <h1> Add songs</h1>
+
+    <!--Two fields: a title where the user types in the title and the yt url they paste-->
+    <div class="add-song-block">
+     <input
+      type="text"
+      id="song-title-input"
+      placeholder="Song title"
+      maxlength="80"
+      aria-label="Song-title"
+      />
+      <input
+      type="url"
+      id="song-url-input"
+      placeholder="Paste Youtube Link Here"
+      aria-label="Youtube-URL"
+      onkeydown="if(event.key==='Enter') addSongFromLink()"
+      />
+      <p class="error-msg" id="url-error"></p>
+      <button class= "btn btn-sm" style="align-self:flex-end;" onclick= "addSongFromLink()">Add Song</button>
+    </div>
+
+    <!--Songs added so far-->
+    <ul id="song-queue">
+    <li class= "empty-hint" id="queue-empty">No songs yet- Paste a Youtube Link above</li>
+  </ul>
+
+
   
 </body>
 
