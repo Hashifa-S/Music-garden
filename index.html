@@ -294,7 +294,72 @@
     <li class= "empty-hint" id="queue-empty">No songs yet- Paste a Youtube Link above</li>
   </ul>
 
+  <div class="nav">
+    <button class="btn" onclick="goTo(1)">Back</button>
+    <button class="btn btn-primary" onclick="goTo(3)">Next</button>
+  </div>
+ </section>
 
+  <!--3rd step- flowers-->
+  <section class="step-panel" id="panel-3">
+   <p class="step-label">Step 3 of 4</p>
+   <h1>Pick flowers for your CD</h1>
+   <div class="flower-grid" id="flower-grid" role="group" aria-label="Flower choices"></div>
+   <p style="font-size:12px;color:#b5b3ad;margin-bottom:6px;">Your bouquet</p>
+   <div class="bouquet" id="bouquet" aria-live="polite">
+     <span class="empty-hint" id="bouquet-empty">Nothing selected yet</span>
+   </div>
+   <div class="nav">
+     <button class="btn" oncick="goTo(2)">Back</button>
+     <button class="btn btn-primary" onclick="goTo(4)">Next</button>
+   </div>
+  </section>
+
+  <!--4th step- play the music and share it-->
+  <section class="step-panel" id="panel-4">
+   <p class="step-label">Step 4 of 4</p>
+   <h1>Play the music and share it</h1>
+
+   <div class="scene">
+
+   <!--Scrap note with flowers picked by the user on each side-->
+   <div class="note-row">
+    <div class="note-flowers" id="note-flowers-left"></div>
+
+   <div class="note-card" id="note-card">
+    <div class="note-lines" id="note-lines"></div>
+    <textarea
+      class="note-textarea"
+      id="note-input"
+      placeholder="Write a little note..."
+      rows="3"
+      maxlength="120"
+      oninput="updateNoteDisplay()"
+      aria-label="Scrapbook note"
+      ></textarea>
+   </div>
+  <div class="note-flowers" id="note-flowers-right"></div>
+   </div>
+
+  <!--Handwritten note text + spinning CD-->
+  <div class="player-area">
+   <div class="above-disc">
+    <p class="note-display" id="note-display"></p>
+   </div>
+   <div class="player-cd-wrap">
+    <div class="player-cd" id="player-cd">
+     <img id="player-cd-image" src="" alt="CD art" style="dsplay:none;"/>
+     <div class="player-cd-grooves"></div>
+    </div>
+    <div class="player-cd-hole" id="player-cd-hole"></div>
+   </div>
+  <p class="now-playing-title" id="now-playing-title">No track selected</p>
+  <p class="now-playing-channel" id="now-playing-channel"></p>
+  </div>
+   </div>
+    
+  <!--Controls-->    
+    
   
 </body>
 
